@@ -293,7 +293,7 @@
          <spel:text>${TestData#WrongContext}</spel:text>\r
       </spel:CheckTextRequest>\r
    </soap:Body>\r
-</soap:Envelope>]]></con:request><con:assertion type="SOAP Response" id="a11181e0-a460-430e-8ea2-65d0d3e183f9"/><con:assertion type="Simple Contains" id="50374502-640a-4ce0-9b7b-44a2310e6417" name="Contains Error"><con:configuration><token>${#TestSuite#errorToken}</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="28838f0e-8009-4a04-89c5-a03c4891188a" name="Contains Correct Spelling According To Context"><con:configuration><token>${TestData#WrongContextExpected}</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>ERROR_UNKNOWN_WORD</con:name><con:value>1</con:value></con:property><con:property><con:name>ERROR_REPEAT_WORD</con:name><con:value>2</con:value></con:property><con:property><con:name>ERROR_CAPITALIZATION</con:name><con:value>3</con:value></con:property><con:property><con:name>ERROR_TOO_MANY_ERRORS</con:name><con:value>4</con:value></con:property></con:properties></con:testCase><con:testCase id="9b8b25aa-b1ff-4c0d-9d4a-afaaf486a115" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="checkText LoopThroughProperties" searchProperties="true"><con:settings/><con:testStep type="request" name="CheckWords" id="a0f0d398-0bf1-419a-906a-73f46efd94ce"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SpellServiceSoap12</con:interface><con:operation>checkText</con:operation><con:request name="CheckWords" id="94144351-27ac-4417-8b72-d969b99ece48"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://speller.yandex.net/services/spellservice</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:spel="http://speller.yandex.net/services/spellservice">\r
+</soap:Envelope>]]></con:request><con:assertion type="SOAP Response" id="a11181e0-a460-430e-8ea2-65d0d3e183f9"/><con:assertion type="Simple Contains" id="50374502-640a-4ce0-9b7b-44a2310e6417" name="Contains Error"><con:configuration><token>${#TestSuite#errorToken}</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="28838f0e-8009-4a04-89c5-a03c4891188a" name="Contains Correct Spelling According To Context"><con:configuration><token>${TestData#WrongContextExpected}</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>ERROR_UNKNOWN_WORD</con:name><con:value>1</con:value></con:property><con:property><con:name>ERROR_REPEAT_WORD</con:name><con:value>2</con:value></con:property><con:property><con:name>ERROR_CAPITALIZATION</con:name><con:value>3</con:value></con:property><con:property><con:name>ERROR_TOO_MANY_ERRORS</con:name><con:value>4</con:value></con:property></con:properties></con:testCase><con:testCase id="9b8b25aa-b1ff-4c0d-9d4a-afaaf486a115" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="checkText LoopsThroughProperties" searchProperties="true"><con:settings/><con:testStep type="request" name="CheckWords" id="a0f0d398-0bf1-419a-906a-73f46efd94ce"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SpellServiceSoap12</con:interface><con:operation>checkText</con:operation><con:request name="CheckWords" id="94144351-27ac-4417-8b72-d969b99ece48"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://speller.yandex.net/services/spellservice</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:spel="http://speller.yandex.net/services/spellservice">\r
    <soap:Header/>\r
    <soap:Body>\r
       <spel:CheckTextRequest>\r
@@ -303,23 +303,18 @@
 </soap:Envelope>]]></con:request><con:assertion type="SOAP Response" id="0ac98cf0-20e5-4286-b7ed-e83f18a3e68f"/><con:assertion type="GroovyScriptAssertion" id="517ce719-5ac1-420a-91bb-c4b7152e6bd2" name="Script Assertion"><con:configuration><scriptText>def response = new XmlSlurper().parseText(context.response)
 def wrongWord = response.'**'.find { it.name() == 'word' }
 def possibleVariants = response.'**'.findAll { it.name() == 's' }
-def errorAttributes = response.'**'.find { it.name() == 'error' }.attributes()
+def errorAttributes = response.'**'.find { it.name() == 'error' }?.attributes()
 
-log.info 'Error  ' + errorAttributes.get('code') + '. In "' + wrongWord + '" - possible variants: ' + possibleVariants </scriptText></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="CheckWordsFromFile" id="8e571f60-4ae1-48f3-8bc4-047620398bba"><con:description>Load Test Properties</con:description><con:settings/><con:config><script>//Load Properties File to Map
+if (errorAttributes != null) {
+	log.info 'Error  ' + errorAttributes.get('code') + '. In "' + wrongWord + '" - possible variants: ' + possibleVariants 
+}
+</scriptText></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="CheckWordsFromFile" id="199858e5-bd56-498e-a576-680e2d5d4eb3"><con:description>Load Test Properties</con:description><con:settings/><con:config><script>//Load Properties File to Map
 def path = context.expand('${projectDir}') + '/' + context.expand('${#TestSuite#PropertiesFile}')
 Properties properties = new Properties()
 File propertiesFile = new File(path)
 propertiesFile.withInputStream {properties.load(it) }
 
-//Checking Spelling v1
-//for (int i = 1; i &lt;= properties.size(); ++i){
-//	word = properties.get(i.toString())
-//	log.info 'Checking spelling: ' + word
-//	testRunner.testCase.setPropertyValue('WordToCheck', word)
-//	testRunner.runTestStepByName('CheckWords')
-//	}
-
-//Checking Spelling v2
+//Checking Spelling
 for (prop in properties){
 	word = prop.value
 	log.info 'Checking spelling: ' + word
@@ -327,7 +322,38 @@ for (prop in properties){
 	testRunner.runTestStepByName('CheckWords')
 	}
 
-	</script></con:config></con:testStep><con:setupScript>//Remove All Properties
+	</script></con:config></con:testStep><con:testStep type="groovy" name="PopulatePropertiesFromFile" id="8e571f60-4ae1-48f3-8bc4-047620398bba"><con:description>Load Test Properties</con:description><con:settings/><con:config><script>//Load Properties File to Map
+def path = context.expand('${projectDir}') + '/' + context.expand('${#TestSuite#PropertiesFile}')
+Properties properties = new Properties()
+File propertiesFile = new File(path)
+propertiesFile.withInputStream {properties.load(it) }
+
+def i
+//Populating Properties
+for (i = 1; i &lt;= properties.size(); ++i){
+	def propertyName = 'WordToCheck' + i
+	word = properties.get(i as String)
+	log.info 'Adding property: {' + propertyName +  ', ' + word + '}'
+	testRunner.testCase.setPropertyValue(propertyName, word)
+	}	
+--i
+//Number of Properties Added
+log.info 'Properties Count: ' + i
+testRunner.testCase.setPropertyValue('NumberOfProperties', i as String)</script></con:config></con:testStep><con:testStep type="groovy" name="CheckWordsFromProperties" id="03624c14-9e16-4ca2-8707-b56eee6b72bb"><con:description>Load Test Properties</con:description><con:settings/><con:config><script>if(context.loopIndex == null) {
+	context.loopIndex = 0
+}
+
+def max = testRunner.testCase.getPropertyValue('NumberOfProperties') as int
+def propertyName = 'WordToCheck'
+
+while(++context.loopIndex &lt;=  max){
+	word =  testRunner.testCase.getPropertyValue(propertyName + context.loopIndex)
+	testRunner.testCase.setPropertyValue('WordToCheck', word)
+	log.info 'Checking spelling: ' + word
+	testRunner.runTestStepByName('CheckWords')
+}	</script></con:config></con:testStep><con:setupScript>//Remove All Properties
 for(prop in testCase.getProperties()){
-     testCase.removeProperty(prop.getKey());
-}</con:setupScript><con:properties><con:property><con:name>WordToCheck</con:name><con:value>Loyse</con:value></con:property></con:properties></con:testCase><con:properties><con:property><con:name>PropertiesFile</con:name><con:value>WrongWords.properties</con:value></con:property><con:property><con:name>errorToken</con:name><con:value>error</con:value></con:property><con:property><con:name>errorTokenCode</con:name><con:value>code=</con:value></con:property><con:property><con:name>errorTokenPosition</con:name><con:value>pos=</con:value></con:property><con:property><con:name>errorTokenRow</con:name><con:value>row=</con:value></con:property><con:property><con:name>errorTokenColumn</con:name><con:value>col=</con:value></con:property><con:property><con:name>errorTokenLength</con:name><con:value>len=</con:value></con:property><con:property><con:name>optionsToken</con:name><con:value>options=</con:value></con:property><con:property><con:name>IGNORE_DIGITS</con:name><con:value>2</con:value></con:property><con:property><con:name>IGNORE_URLS</con:name><con:value>4</con:value></con:property><con:property><con:name>FIND_REPEAT_WORDS</con:name><con:value>8</con:value></con:property><con:property><con:name>IGNORE_CAPITALIZATION</con:name><con:value>512</con:value></con:property><con:property><con:name>languageToken</con:name><con:value>lang=</con:value></con:property><con:property><con:name>Russian</con:name><con:value>RU</con:value></con:property><con:property><con:name>Ukrainian</con:name><con:value>UK</con:value></con:property><con:property><con:name>English</con:name><con:value>EN</con:value></con:property></con:properties></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+     testCase.removeProperty(prop.getKey())
+}
+
+testCase.addProperty('WordToCheck')</con:setupScript><con:properties><con:property><con:name>WordToCheck</con:name></con:property></con:properties></con:testCase><con:properties><con:property><con:name>PropertiesFile</con:name><con:value>WrongWords.properties</con:value></con:property><con:property><con:name>errorToken</con:name><con:value>error</con:value></con:property><con:property><con:name>errorTokenCode</con:name><con:value>code=</con:value></con:property><con:property><con:name>errorTokenPosition</con:name><con:value>pos=</con:value></con:property><con:property><con:name>errorTokenRow</con:name><con:value>row=</con:value></con:property><con:property><con:name>errorTokenColumn</con:name><con:value>col=</con:value></con:property><con:property><con:name>errorTokenLength</con:name><con:value>len=</con:value></con:property><con:property><con:name>optionsToken</con:name><con:value>options=</con:value></con:property><con:property><con:name>IGNORE_DIGITS</con:name><con:value>2</con:value></con:property><con:property><con:name>IGNORE_URLS</con:name><con:value>4</con:value></con:property><con:property><con:name>FIND_REPEAT_WORDS</con:name><con:value>8</con:value></con:property><con:property><con:name>IGNORE_CAPITALIZATION</con:name><con:value>512</con:value></con:property><con:property><con:name>languageToken</con:name><con:value>lang=</con:value></con:property><con:property><con:name>Russian</con:name><con:value>RU</con:value></con:property><con:property><con:name>Ukrainian</con:name><con:value>UK</con:value></con:property><con:property><con:name>English</con:name><con:value>EN</con:value></con:property></con:properties></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
